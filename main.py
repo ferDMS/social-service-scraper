@@ -1,6 +1,6 @@
 """
 Title: Script to Scrape Solidarity Project Registrations for Winter Period
-Author: Fernando Daniel Monroy Sáncez
+Author: Fernando Daniel Monroy Sánchez
 Description: 
     This script performs a POST request to obtain data from a server, 
     processes the response, and writes the information to a CSV and Excel file.
@@ -24,109 +24,28 @@ def requestData():
     # Specify the amount of entries to request from the server
     rows = 10000
 
-    # Request payload which defines the amount of entries to obtain
-    payload = {
-        "dataRequest": [{
-            "requestContext": {
-                "reportContext": {
-                    "reportId": "1e2031bb-c1c2-4834-8c67-668d432e1a12",
-                    "pageId": "p_beb89xjkcd",
-                    "mode": 1,
-                    "componentId": "cd-fma89xjkcd",
-                    "displayType": "simple-table"
-                },
-                "requestMode": 0
-            },
-            "datasetSpec": {
-                "dataset": [{
-                    "datasourceId": "57f0958f-190f-47b9-a937-4efa365d5143",
-                    "revisionNumber": 0,
-                    "parameterOverrides": []
-                }],
-                "queryFields": [{
-                    "name": "qt_n0b74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_39243438_"}
-                }, {
-                    "name": "qt_o0b74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_n341627934_"}
-                }, {
-                    "name": "qt_p0b74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_n1986575415_"}
-                }, {
-                    "name": "qt_isc74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_1169845789_"}
-                }, {
-                    "name": "qt_jsc74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_1336977314_"}
-                }, {
-                    "name": "qt_ksc74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_n1368112855_"}
-                }, {
-                    "name": "qt_lsc74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_n120571253_"}
-                }],
-                "sortData": [{
-                    "sortColumn": {
-                        "name": "qt_o0b74z9kcd",
-                        "datasetNs": "d0",
-                        "tableNs": "t0",
-                        "dataTransformation": {"sourceFieldName": "_n341627934_"}
-                    },
-                    "sortDir": 0
-                }],
-                "includeRowsCount": True,
-                "relatedDimensionMask": {
-                    "addDisplay": False,
-                    "addUniqueId": False,
-                    "addLatLong": False
-                },
-                "paginateInfo": {"startRow": 1, "rowsCount": rows},
-                "filters": [],
-                "features": [],
-                "dateRanges": [],
-                "contextNsCount": 1,
-                "dateRangeDimensions": [{
-                    "name": "qt_6be74z9kcd",
-                    "datasetNs": "d0",
-                    "tableNs": "t0",
-                    "dataTransformation": {"sourceFieldName": "_1176618056_",
-                                        "transformationConfig": {"transformationType": 5}}
-                }],
-                "calculatedField": [],
-                "needGeocoding": False,
-                "geoFieldMask": [],
-                "multipleGeocodeFields": []
-            },
-            "role": "main",
-            "retryHints": {"useClientControlledRetry": True, "isLastRetry": False, "retryCount": 0,
-                        "originalRequestId": "cd-fma89xjkcd_0_0"}
-        }]
+    # Request cookies that define the necessary tokens to access the information
+    cookies = {
+        '_gid': 'GA1.3.1220078569.1702573968',
+        '1P_JAR': '2023-12-14-17',
+        'AEC': 'Ackid1T-hJYX-Ts8fpUACwrlbmef1WX_iycdo4aGyz9hlzekzETxjQW4oAQ',
+        'NID': '511=E5zGmolfgRzs58YNJHmiGepGegVw2pm-2wJ-6qccnm4sE5JlML9RqXhrdsyYgyXYOpl01wZLXqYlJAgA8x58DlpPVs6mR_FbyOYvUOWM3vcwe3EQ-pWT-7P_GxQdVEx8etUE3lX1hw9oZnaW8uvfXKxgBfLHoRX1iHRd0olLo3LgvCTzoS23v3NtNHfpJWs-W3rWJdo2kI4',
+        '_ga': 'GA1.3.1741927020.1702573966',
+        '_gat_marketingTracker': '1',
+        '_gat': '1',
+        '_ga_S4FJY0X3VX': 'GS1.1.1702573965.1.1.1702576195.0.0.0',
     }
 
-    # Request headers that define the necessary cookies and tokens for the request
+    # Request headers with information about the request and the client
     headers = {
         'authority': 'lookerstudio.google.com',
         'accept': 'application/json, text/plain, */*',
-        'accept-language': 'en,es;q=0.9',
+        'accept-language': 'en',
         'content-type': 'application/json',
-        'cookie': 'RAP_XSRF_TOKEN=AImk1AIFnvoKKIQHi-JggogBFp-OChSXhA:1702543467049; S=billing-ui-v3=-uE5FmQTgRm9c1xNjIS2zITeD6W7M7tM:billing-ui-v3-efe=-uE5FmQTgRm9c1xNjIS2zITeD6W7M7tM; _ga_S4FJY0X3VX=deleted; _gid=GA1.3.527423460.1702490375; AEC=Ackid1S84bCRfTseM8TNfC6CExoZ87VMJ7lK2gV3y0uUTgLO1vIMbRxD5uw; SID=eAh12HppB3sSLqTDfpSj7b6dyvPz_PWk2eR2dfr1LUG8tpqh2VaNnUgIFPgtH5In95Nx3A.; __Secure-1PSID=eAh12HppB3sSLqTDfpSj7b6dyvPz_PWk2eR2dfr1LUG8tpqhF885xpZ-ePhFjsjQEPolLw.; __Secure-3PSID=eAh12HppB3sSLqTDfpSj7b6dyvPz_PWk2eR2dfr1LUG8tpqhafpQImC5zg6ZUeSK9Zobwg.; HSID=AYaSa6TjzuKTa6Qef; SSID=Axp-eSyLDgd8GGx7l; APISID=kY_6tEU6odTYP9H7/AyOM7hV-nqqBGgmcO; SAPISID=-bDcrSg_hcr-JH-k/AY584QkLdhxYFyFbF; __Secure-1PAPISID=-bDcrSg_hcr-JH-k/AY584QkLdhxYFyFbF; __Secure-3PAPISID=-bDcrSg_hcr-JH-k/AY584QkLdhxYFyFbF; __Secure-ENID=16.SE=VO_1BsJ8OivF4zQrncEva2HMGKKe7Y_1K26Z3GonD85ZTNsw_i4TFkMfO7ZNAq8qhOkINwG08BwT1JBVn3nlseYRTKYHT4w6zkAfKw-NmbrEzrKxFofGLBf6xXrJOQBDKCTL-HH8yeurrO0zY88y8NS7nrdyWx40rEAouD2ooR8IAwQphuawbdCpJD22aJrXZznzxrzGKLPBIRUS5sFyVLWa1pZluBSYXWQc3T_layw0meMbTTHjsCwxQL8f-u0KW7x_saxi1ikrUowIIvNQeBW7RSdVWDlnsgAdiNO8ZeNxUQpycEpazcDr1dnPE0gCpQBZQdjLYPTiX3cWXnVinD3_LZKd749jQVy4-KUH32cC; 1P_JAR=2023-12-14-08; _ga=GA1.3.711671726.1700965214; _ga_S4FJY0X3VX=GS1.1.1702541928.22.1.1702543467.0.0.0; NID=511=k1u-NymQIJGWGWs8xQgKmVSAL_ZS2GEC8vSwwT3B4EVizi3LU6PEG12YYn_HefCeB2WgLghGVc-rLHwIFA0JlMZmHEi-z-zQ1bl7ov_9mH5R-SExgWY3tUdHHhkddl_8gkU5MdCJo3uTe3raKHEfv5uKYvPjHlLg9baHSbcjheTvziH1_OS6VOatwr8BnD81wtDzzDtF22zwRQF-KhAM1yQV2KvIZv2c90rQrVmNiDkB8xowwhDasGIt4rcXRu4_FIzoZk3Ng9RLNd_HhJclpXnW7I65o087i1tUBvFhrrhgIIsdaReGorifaR_4PPWFY_MMaklvK5dIHiMa1KQfrFw44vcTjPV0tuwq3fl8pzSbD9bQp5EMwc81BwRwP67S4fMx6xavzmIqbPWBeAlQ7bEDtVTnpJvrDR3ysaHfKfJt0BytnxKHDcS22xA-jdO-LooC7QCPdh3HQvI86cbprrMRQyGddTqJIA0AiHMor-vKVIsX8ZpZKCoowrBBi9SrWnQkYRp_7yuoCPqTklrBrjLfxxPlpexFecmiQgklp51gQB8CW1lWUSjZTGB-bFy4OZPYe9aysZLsiW5tOKAMp1na7q7x_O6f0T4ShGhPuinrOp9rM-y5RnYDBNDSwwfbJBsAvLnn9QY; SIDCC=ABTWhQHOYxPyhPO5LYo18-bIme1un0nJ6SYHhiBzvvEzcGgjomsWSP_4D5AvVQGx1-DQfdJskg; __Secure-1PSIDCC=ABTWhQEygL291cj9FmwDrBrPsvb1H9buWRPqOMSsJqcXq2Y67V7Sb32QQDpzyLOtEet9UhxkW3A; __Secure-3PSIDCC=ABTWhQG7VoXV5GTqyaloNrUO-t75x3-1DXqYm4fx67B99zoQYYPHjrV2ZtuLv00XGKjvsAtLVXo',
+        # 'cookie': '_gid=GA1.3.1220078569.1702573968; 1P_JAR=2023-12-14-17; AEC=Ackid1T-hJYX-Ts8fpUACwrlbmef1WX_iycdo4aGyz9hlzekzETxjQW4oAQ; NID=511=E5zGmolfgRzs58YNJHmiGepGegVw2pm-2wJ-6qccnm4sE5JlML9RqXhrdsyYgyXYOpl01wZLXqYlJAgA8x58DlpPVs6mR_FbyOYvUOWM3vcwe3EQ-pWT-7P_GxQdVEx8etUE3lX1hw9oZnaW8uvfXKxgBfLHoRX1iHRd0olLo3LgvCTzoS23v3NtNHfpJWs-W3rWJdo2kI4; _ga=GA1.3.1741927020.1702573966; _gat_marketingTracker=1; _gat=1; _ga_S4FJY0X3VX=GS1.1.1702573965.1.1.1702576195.0.0.0',
         'encoding': 'null',
         'origin': 'https://lookerstudio.google.com',
-        'referer': 'https://lookerstudio.google.com/u/0/reporting/1e2031bb-c1c2-4834-8c67-668d432e1a12/page/p_beb89xjkcd?s=sIOHo74qPCY',
+        'referer': 'https://lookerstudio.google.com/reporting/1e2031bb-c1c2-4834-8c67-668d432e1a12/page/p_beb89xjkcd?s=sIOHo74qPCY',
         'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"macOS"',
@@ -134,16 +53,161 @@ def requestData():
         'sec-fetch-mode': 'cors',
         'sec-fetch-site': 'same-origin',
         'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-        'x-client-data': 'CJa2yQEIpLbJAQipncoBCKXbygEIlaHLAQib/swBCIagzQEI3L3NAQjf6c0BCN7rzQEI3+zNARiPzs0BGKfqzQE=',
-        'x-rap-xsrf-token': 'AImk1AIFnvoKKIQHi-JggogBFp-OChSXhA:1702543467049'
     }
 
-    # URL which with the connection is stablished
-    url = "https://lookerstudio.google.com/u/0/batchedDataV2?appVersion=20231212_1000"
+    # Request parameters (query parameters that could also be specified in the URL)
+    params = {
+        'appVersion': '20231211_0700',
+    }
+
+    # Request JSON data or payload which specified the amount of rows to obtain
+    json_data = {
+        'dataRequest': [
+            {
+                'requestContext': {
+                    'reportContext': {
+                        'reportId': '1e2031bb-c1c2-4834-8c67-668d432e1a12',
+                        'pageId': 'p_beb89xjkcd',
+                        'mode': 1,
+                        'componentId': 'cd-fma89xjkcd',
+                        'displayType': 'simple-table',
+                    },
+                    'requestMode': 0,
+                },
+                'datasetSpec': {
+                    'dataset': [
+                        {
+                            'datasourceId': '57f0958f-190f-47b9-a937-4efa365d5143',
+                            'revisionNumber': 0,
+                            'parameterOverrides': [],
+                        },
+                    ],
+                    'queryFields': [
+                        {
+                            'name': 'qt_n0b74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_39243438_',
+                            },
+                        },
+                        {
+                            'name': 'qt_o0b74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_n341627934_',
+                            },
+                        },
+                        {
+                            'name': 'qt_p0b74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_n1986575415_',
+                            },
+                        },
+                        {
+                            'name': 'qt_isc74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_1169845789_',
+                            },
+                        },
+                        {
+                            'name': 'qt_jsc74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_1336977314_',
+                            },
+                        },
+                        {
+                            'name': 'qt_ksc74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_n1368112855_',
+                            },
+                        },
+                        {
+                            'name': 'qt_lsc74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_n120571253_',
+                            },
+                        },
+                    ],
+                    'sortData': [
+                        {
+                            'sortColumn': {
+                                'name': 'qt_o0b74z9kcd',
+                                'datasetNs': 'd0',
+                                'tableNs': 't0',
+                                'dataTransformation': {
+                                    'sourceFieldName': '_n341627934_',
+                                },
+                            },
+                            'sortDir': 0,
+                        },
+                    ],
+                    'includeRowsCount': True,
+                    'relatedDimensionMask': {
+                        'addDisplay': False,
+                        'addUniqueId': False,
+                        'addLatLong': False,
+                    },
+                    'paginateInfo': {
+                        'startRow': 1,
+                        'rowsCount': rows,
+                    },
+                    'filters': [],
+                    'features': [],
+                    'dateRanges': [],
+                    'contextNsCount': 1,
+                    'dateRangeDimensions': [
+                        {
+                            'name': 'qt_6be74z9kcd',
+                            'datasetNs': 'd0',
+                            'tableNs': 't0',
+                            'dataTransformation': {
+                                'sourceFieldName': '_1176618056_',
+                                'transformationConfig': {
+                                    'transformationType': 5,
+                                },
+                            },
+                        },
+                    ],
+                    'calculatedField': [],
+                    'needGeocoding': False,
+                    'geoFieldMask': [],
+                    'multipleGeocodeFields': [],
+                },
+                'role': 'main',
+                'retryHints': {
+                    'useClientControlledRetry': True,
+                    'isLastRetry': False,
+                    'retryCount': 0,
+                    'originalRequestId': 'cd-fma89xjkcd_0_0',
+                },
+            },
+        ],
+    }
+
+    # URL for the connection
+    url = "https://lookerstudio.google.com/batchedDataV2"
 
     # Send the request through a POST call and get reponse from server
     print(f"Requesting up to {rows} entries...")
-    response = requests.post(url, json=payload, headers=headers)
+    response = requests.post(
+        url,
+        params=params,
+        cookies=cookies,
+        headers=headers,
+        json=json_data,
+    )
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
