@@ -289,7 +289,7 @@ def exportData_xlsx(file_name):
 
     # Get size of table (with headers) as (# of rows, # of columns)
     size = {
-        'rows' : df.shape[0]-1,
+        'rows' : df.shape[0],
         'columns' : df.shape[1]-1
     }
 
