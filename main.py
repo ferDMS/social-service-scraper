@@ -10,6 +10,7 @@ import json
 import re
 import requests
 import pandas as pd
+import csv
 
 def requestData():
     """
@@ -26,45 +27,56 @@ def requestData():
 
     # Request cookies that define the necessary tokens to access the information
     cookies = {
-    "NID": "511=TJtaE6hIQ5rTW0K77jRvDIjbcoZlMvq1vXs0YbrF8ePc8anb__R6zQHrtSFLYFPIdHL9S1dZYgkNw_w3DB32-R3UmYI1wOmqti-_NOAQKQamGaiz8FvO5eJwkq00E0IQKXUMr4dcjGCZCNa63iMS9enKCJvw-abBe4orPkYSZo0",
-    "_gid": "GA1.3.1078430438.1706232920",
-    "_ga": "GA1.3.826474088.1706232920",
-    "_gat_marketingTracker": "1",
-    "_gat": "1",
-    "_ga_S4FJY0X3VX": "GS1.1.1706232920.1.0.1706232922.0.0.0",
-}
+        "SID": "g.a000mQh12OO7ZYVcK1lC75bs0VxgU9ywKiNx1etr1x0KkgiP9ba-Xkthb9BbWyu7pmDsfClXOwACgYKAeUSARMSFQHGX2Mi3RfPYyXuvf3o1xlVRBRFrBoVAUF8yKoJOVefcRjr3ihkUwfBr-pk0076",
+        "__Secure-1PSID": "g.a000mQh12OO7ZYVcK1lC75bs0VxgU9ywKiNx1etr1x0KkgiP9ba-pyusIO-Qryi8yYDfkrOrYgACgYKAboSARMSFQHGX2MiksbvAzfTqtpTBbgv2DlwjxoVAUF8yKq7R9YT0GFKcVVgwYkYSuyL0076",
+        "__Secure-3PSID": "g.a000mQh12OO7ZYVcK1lC75bs0VxgU9ywKiNx1etr1x0KkgiP9ba-B_FLB6H5sa86l95_TcIiOwACgYKAXQSARMSFQHGX2MiLn_vGwPBopxF6s8SR_F18RoVAUF8yKqYWNaxcpA7k7ERYLB38QBn0076",
+        "HSID": "Ak-J08Gu5RXzrMXxl",
+        "SSID": "AVoBE8V592CUj81_C",
+        "APISID": "ZiiZ1bUeU8qSCG92/A7qMHsHtgI9-9cJeR",
+        "SAPISID": "pJtGNDbQNcgV8yvJ/AGLc0VLmItPjp5gG7",
+        "__Secure-1PAPISID": "pJtGNDbQNcgV8yvJ/AGLc0VLmItPjp5gG7",
+        "__Secure-3PAPISID": "pJtGNDbQNcgV8yvJ/AGLc0VLmItPjp5gG7",
+        "AEC": "AVYB7cpPFNrr3JDi0RXCcSZrvNMurqqz4i82OocYGzJ9lYPlwhfdBROCgQ",
+        "NID": "516=PSZWxYkm4E4nSQmVWiTurBvwp88LhCta8WyLD7Oc3wn6MHafKTwgeLOY0xrrATE2jKJvu9kBIqc4UbzNyZY3CoZ8a2gApKp6L1YqkAkEry9wAaIyIc54-gSGhEMNek-RgzmCWonsSN_MNpJTWWC3WTsqTAUDO9BZ1aYqpkWLD15MFcxRnjcAfi24ARIheMEhOTLae1WV88NR8xTepyVXMVy2R23Aqi9_wQytIT_SLQk-NoTnBoJrDIo-ifewBYxFN6VUm5pGgQbrhxr7XAtVefhAjPfzcJMCM5KelUD3pZwb_ocAGPolC63qNHlQtLleBCHA90aInPrKLtFu0zdkMgA6xJuxyWmZ78Lv6Rffth2AQW1lHkDq_VwpTnYPTIzpR3BFJb2UnOk",
+        "__Secure-1PSIDTS": "sidts-CjEB4E2dkSF3vKmH1bM0gZThHEWNxK_ZW3dx807YS8W969I9Tu347Pe-TXlIlFysD52UEAA",
+        "__Secure-3PSIDTS": "sidts-CjEB4E2dkSF3vKmH1bM0gZThHEWNxK_ZW3dx807YS8W969I9Tu347Pe-TXlIlFysD52UEAA",
+        "RAP_XSRF_TOKEN": "AImk1AK59lPU5zwIqr62_rnv_GEirWL4nQ:1722892103601",
+        "SIDCC": "AKEyXzXGYqQss-pYGGXWDS2wfi7t08GElhnZYeLEFQB7sudSBT_iQyDTo1mnqtdZZcaL7uIyCRU",
+        "__Secure-1PSIDCC": "AKEyXzVm-yNHo839lZohmajbOXEKfQohUidwCOAT0brRer7-VyuUFgaPF0jPvPqjbc0V441VWZE",
+        "__Secure-3PSIDCC": "AKEyXzXzVHGvEJK3gNGDl_tt80TCFcoj94upG2bKXbLrcHM3F-eNhDGlYuq76iZLFke5164jaDU"
+    }
+
 
     # Request headers with information about the request and the client
     headers = {
-    "authority": "lookerstudio.google.com",
-    "method": "POST",
-    "path": "/batchedDataV2?appVersion=20240123_0800",
-    "scheme": "https",
-    "accept": "application/json, text/plain, */*",
-    "accept-encoding": "gzip, deflate, br",
-    "accept-language": "en",
-    "content-length": "1997",
-    "content-type": "application/json",
-    #"cookie": "NID=511=TJtaE6hIQ5rTW0K77jRvDIjbcoZlMvq1vXs0YbrF8ePc8anb__R6zQHrtSFLYFPIdHL9S1dZYgkNw_w3DB32-R3UmYI1wOmqti-_NOAQKQamGaiz8FvO5eJwkq00E0IQKXUMr4dcjGCZCNa63iMS9enKCJvw-abBe4orPkYSZo0; _gid=GA1.3.1078430438.1706232920; _ga=GA1.3.826474088.1706232920; _gat_marketingTracker=1; _gat=1; _ga_S4FJY0X3VX=GS1.1.1706232920.1.0.1706232922.0.0.0",
-    "encoding": "null",
-    "origin": "https://lookerstudio.google.com",
-    "referer": "https://lookerstudio.google.com/reporting/1e2031bb-c1c2-4834-8c67-668d432e1a12/page/p_povubyjdcd?s=sIOHo74qPCY%5C",
-    "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
-    "sec-ch-ua-mobile": "?0",
-    "sec-ch-ua-platform": "\"Windows\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-}
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'en-US,en;q=0.9,es;q=0.8,es-MX;q=0.7',
+        'content-type': 'application/json',
+        # 'cookie': 'SID=g.a000mQh12OO7ZYVcK1lC75bs0VxgU9ywKiNx1etr1x0KkgiP9ba-Xkthb9BbWyu7pmDsfClXOwACgYKAeUSARMSFQHGX2Mi3RfPYyXuvf3o1xlVRBRFrBoVAUF8yKoJOVefcRjr3ihkUwfBr-pk0076; __Secure-1PSID=g.a000mQh12OO7ZYVcK1lC75bs0VxgU9ywKiNx1etr1x0KkgiP9ba-pyusIO-Qryi8yYDfkrOrYgACgYKAboSARMSFQHGX2MiksbvAzfTqtpTBbgv2DlwjxoVAUF8yKq7R9YT0GFKcVVgwYkYSuyL0076; __Secure-3PSID=g.a000mQh12OO7ZYVcK1lC75bs0VxgU9ywKiNx1etr1x0KkgiP9ba-B_FLB6H5sa86l95_TcIiOwACgYKAXQSARMSFQHGX2MiLn_vGwPBopxF6s8SR_F18RoVAUF8yKqYWNaxcpA7k7ERYLB38QBn0076; HSID=Ak-J08Gu5RXzrMXxl; SSID=AVoBE8V592CUj81_C; APISID=ZiiZ1bUeU8qSCG92/A7qMHsHtgI9-9cJeR; SAPISID=pJtGNDbQNcgV8yvJ/AGLc0VLmItPjp5gG7; __Secure-1PAPISID=pJtGNDbQNcgV8yvJ/AGLc0VLmItPjp5gG7; __Secure-3PAPISID=pJtGNDbQNcgV8yvJ/AGLc0VLmItPjp5gG7; AEC=AVYB7cpPFNrr3JDi0RXCcSZrvNMurqqz4i82OocYGzJ9lYPlwhfdBROCgQ; NID=516=PSZWxYkm4E4nSQmVWiTurBvwp88LhCta8WyLD7Oc3wn6MHafKTwgeLOY0xrrATE2jKJvu9kBIqc4UbzNyZY3CoZ8a2gApKp6L1YqkAkEry9wAaIyIc54-gSGhEMNek-RgzmCWonsSN_MNpJTWWC3WTsqTAUDO9BZ1aYqpkWLD15MFcxRnjcAfi24ARIheMEhOTLae1WV88NR8xTepyVXMVy2R23Aqi9_wQytIT_SLQk-NoTnBoJrDIo-ifewBYxFN6VUm5pGgQbrhxr7XAtVefhAjPfzcJMCM5KelUD3pZwb_ocAGPolC63qNHlQtLleBCHA90aInPrKLtFu0zdkMgA6xJuxyWmZ78Lv6Rffth2AQW1lHkDq_VwpTnYPTIzpR3BFJb2UnOk; __Secure-1PSIDTS=sidts-CjEB4E2dkSF3vKmH1bM0gZThHEWNxK_ZW3dx807YS8W969I9Tu347Pe-TXlIlFysD52UEAA; __Secure-3PSIDTS=sidts-CjEB4E2dkSF3vKmH1bM0gZThHEWNxK_ZW3dx807YS8W969I9Tu347Pe-TXlIlFysD52UEAA; RAP_XSRF_TOKEN=AImk1AK59lPU5zwIqr62_rnv_GEirWL4nQ:1722892103601; SIDCC=AKEyXzXGYqQss-pYGGXWDS2wfi7t08GElhnZYeLEFQB7sudSBT_iQyDTo1mnqtdZZcaL7uIyCRU; __Secure-1PSIDCC=AKEyXzVm-yNHo839lZohmajbOXEKfQohUidwCOAT0brRer7-VyuUFgaPF0jPvPqjbc0V441VWZE; __Secure-3PSIDCC=AKEyXzXzVHGvEJK3gNGDl_tt80TCFcoj94upG2bKXbLrcHM3F-eNhDGlYuq76iZLFke5164jaDU',
+        'dnt': '1',
+        'encoding': 'null',
+        'origin': 'https://lookerstudio.google.com',
+        'priority': 'u=1, i',
+        'referer': 'https://lookerstudio.google.com/reporting/1e2031bb-c1c2-4834-8c67-668d432e1a12/page/p_7u1eltbgjd?s=sIOHo74qPCY',
+        'sec-ch-ua': '"Chromium";v="127", "Not)A;Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+        'x-client-data': 'CJ7zygE=',
+        'x-rap-xsrf-token': 'AImk1AK59lPU5zwIqr62_rnv_GEirWL4nQ:1722892103601'
+    }
+
 
     # # Request parameters (query parameters that could also be specified in the URL)
     params = {
         'appVersion': '20231211_0700',
     }
 
-    # Request JSON data or payload which specified the amount of rows to obtain
-    json_data = {"dataRequest":[{"requestContext":{"reportContext": {"reportId":"1e2031bb-c1c2-4834-8c67-668d432e1a12","pageId":"p_povubyjdcd","mode":1,"componentId":"cd-108tm1jdcd","displayType":"simple-table"},"requestMode":0},"datasetSpec":{"dataset":[{"datasourceId":"d68ea43a-2f0e-4a00-8898-22f8a47ca430","revisionNumber":0,"parameterOverrides":[]}],"queryFields":[{"name":"qt_fh7tm1jdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_985914030_"}},{"name":"qt_utxp42jdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n1124254750_"}},{"name":"qt_4ai252jdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n414281798_"}},{"name":"qt_8ygnj7jdcd","datasetNs":"d0","tableNs":"t0","resultTransformation":{"analyticalFunction":0,"isRelativeToBase":False},"dataTransformation":{"sourceFieldName":"_n179593893_"}},{"name":"qt_7328s6jdcd","datasetNs":"d0","tableNs":"t0","resultTransformation":{"analyticalFunction":0,"isRelativeToBase":False},"dataTransformation":{"sourceFieldName":"_302064841_"}},{"name":"qt_0qpj82jdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n1735679163_"}},{"name":"qt_2rppq3jdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n920199899_"}},{"name":"qt_znceizkdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n1927870623_"}}],"sortData":[{"sortColumn":{"name":"qt_fh7tm1jdcd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_985914030_"}},"sortDir":1}],"includeRowsCount":True,"relatedDimensionMask":{"addDisplay":False,"addUniqueId":False,"addLatLong":False},"paginateInfo":{"startRow":1,"rowsCount":rows},"filters":[],"features":[],"dateRanges":[],"contextNsCount":1,"calculatedField":[],"needGeocoding":False,"geoFieldMask":[],"multipleGeocodeFields":[]},"role":"main","retryHints":{"useClientControlledRetry":True,"isLastRetry":False,"retryCount":0,"originalRequestId":"cd-108tm1jdcd_0_0"}}]}
+    # Request JSON data or payload which specifies the amount of rows to obtain
+    json_data = {"dataRequest":[{"requestContext":{"reportContext":{"reportId":"1e2031bb-c1c2-4834-8c67-668d432e1a12","pageId":"p_7u1eltbgjd","mode":1,"componentId":"cd-a30eltbgjd","displayType":"simple-table"},"requestMode":0},"datasetSpec":{"dataset":[{"datasourceId":"16f933e9-62ff-4729-9d24-774ffa04b898","revisionNumber":0,"parameterOverrides":[]}],"queryFields":[{"name":"qt_5767v8bgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_1169845789_"}},{"name":"qt_k4ta7acgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_1336977314_"}},{"name":"qt_ixwccbcgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n341627934_"}},{"name":"qt_s1bxjbcgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_1272339798_"}},{"name":"qt_4gxqmbcgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n1986575415_"}},{"name":"qt_ur9uqbcgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n1368112855_"}},{"name":"qt_5237wccgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_859073000_"}},{"name":"qt_9fuczccgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n1223991429_"}},{"name":"qt_dltl1ccgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n518433374_"}}],"sortData":[{"sortColumn":{"name":"qt_ixwccbcgjd","datasetNs":"d0","tableNs":"t0","dataTransformation":{"sourceFieldName":"_n341627934_"}},"sortDir":0}],"includeRowsCount":True,"relatedDimensionMask":{"addDisplay":False,"addUniqueId":False,"addLatLong":False},"paginateInfo":{"startRow":1,"rowsCount":rows},"dsFilterOverrides":[],"filters":[],"features":[],"dateRanges":[],"contextNsCount":1,"calculatedField":[],"needGeocoding":False,"geoFieldMask":[],"multipleGeocodeFields":[]},"role":"main","retryHints":{"useClientControlledRetry":True,"isLastRetry":False,"retryCount":0,"originalRequestId":"cd-a30eltbgjd_0_0"}}],"requestModifications":[]}
 
     # URL for the connection
     url = "https://lookerstudio.google.com/batchedDataV2"
@@ -90,51 +102,47 @@ def requestData():
         print(f"Error: {response.status_code} - {response.text}")
 
 
+
+
 def parseData_csv(file_name):
     """
     The response is ran through a regex and parsing library to obtain the target information
     The table is reconstructed in a CSV type file by performing a loop for each row obtained
     """
-
     # File name for .csv and .xlsx files
-
     # Read the response from file and obtain only the JSON object
     with open("response.txt", "r", encoding="utf-8") as file:
         response = file.read()
         print("Searching for matching JSON object...")
         json_data = re.findall(r'(\{.*$)', response) 
         print("JSON found, parsing the data...")
-
     # Parse the JSON response
     parsed_json = json.loads(json_data[0])
-
     # Access the columns of the relevant data
     columns = parsed_json['dataResponse'][0]['dataSubset'][0]['dataset']['tableDataset']['column']
-
     # Number of rows to visualize (not including headers)
     n = parsed_json['dataResponse'][0]['dataSubset'][0]['dataset']['tableDataset']['totalCount']
     print(f"Data parsed, found {n} entries")
-
-    # Initialize text variable with headers
-    text = "Periodo,Matrícula,Nombre,Semestre,Carrera,Institución,Proyecto,Duración\n"
+    # Initialize list of rows with headers
+    rows = [["Socioformador",  "Experiencia",  "Matrícula",  "Carrera",  "Nombre",  "Duración autorizada",  "Responsable de proyecto",  "Correo de responsable",  "Horas acreditables"]]
     print("Preparing .csv file...")
-
     # Scrap data and prepare it for CSV
     idx = {i : 0 for i in range(len(columns))}
     for row in range(n):
+        row_data = []
         for i, column in enumerate(columns):
             if row in column['nullIndex']:
-                text += '"",'
+                row_data.append("")
             else:
-                text += '"' + column['stringColumn']['values'][idx[i]] + '"' + ","
+                row_data.append(column['stringColumn']['values'][idx[i]])
                 idx[i] += 1
-        text = text[:len(text)-1]
-        text += "\n"
-
-    # Export formatted data to CSV
-    with open(f"{file_name}.csv", "w", encoding="utf-8") as file:
-        file.write(text)
+        rows.append(row_data)
+    # Export formatted data to CSV using csv module
+    with open(f"{file_name}.csv", "w", encoding="utf-8", newline='') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_MINIMAL)
+        writer.writerows(rows)
     print(f"Data saved to {file_name}.csv")
+
 
 
 def exportData_xlsx(file_name):
@@ -147,7 +155,7 @@ def exportData_xlsx(file_name):
 
     # Read .csv file using pandas
     print("Preparing .xlsx file...")
-    df = pd.read_csv(f"{file_name}.csv")
+    df = pd.read_csv(f"{file_name}.csv", quotechar='"')
 
     # Export formatted data to an excel file (.xlsx)
     with pd.ExcelWriter(f'{file_name}.xlsx', engine='xlsxwriter') as writer:
@@ -182,7 +190,7 @@ def exportData_xlsx(file_name):
     print(f"Data saved to {file_name}.xlsx")
 
 
-file_name = "feb_jun_2024"
-requestData()
+file_name = "ago_dic_2024"
+# requestData()
 parseData_csv(file_name)
 exportData_xlsx(file_name)
